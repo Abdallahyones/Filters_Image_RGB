@@ -52,6 +52,16 @@ void Black_White(){
         }
     }
 }
+void Invert_Image() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for(int g=0;g<RGB;k++){
+                new_image[i][j][g]=255-image_Rgb[i][j][g];
+                image_Rgb[i][j][g] = new_image[i][j][g];
+            }
+        }
+    }
+}
 
 void Flip_Image() {
     int num  ;
@@ -134,6 +144,159 @@ void Detect_Image(){
         }
     }
 }
+void filter8_4() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int g = 0; g < RGB; k++) {
+            new_image[i][j][g] = image_Rgb[(i / 2) + 128][(j / 2) + 128][g];
+        }
+    }}
+}
+void filter8_3() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int g = 0; g < RGB; k++) {
+                new_image[i][j][g] = image_Rgb[(i / 2) + 128][(j / 2)][g];
+            }
+        }
+    }
+}
+void filter8_2() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int g = 0; g < RGB; k++) {
+            new_image[i][j][g] = image_Rgb[i/2][(j/2)+128][g];
+
+        }}
+    }
+}
+void filter8_1() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int g = 0; g < RGB; k++) {
+                new_image[i][j][g] = image_Rgb[i / 2][j / 2][g];
+            }
+        }
+    }
+}
+void Enlarge_Image(){
+    //This filter allows the user to enlarge one of the four quarters of the image into a separate new image
+    cout << "Which quarter to enlarge 1, 2, 3 or 4? ";
+    int num ;
+    cin >> num ;
+    switch (num) {
+        case 1:
+            filter8_1();
+            break;
+        case 2:
+            filter8_2();
+            break;
+        case 3:
+            filter8_3();
+            break;
+        case 4:
+            filter8_4();
+            break;
+    }
+      // Current image equal new_image
+    for (int i = 0; i < SIZE ; i++){
+        for (int j  = 0 ; j < SIZE ; j++){
+            for (int g = 0 ; g < RGB ; g++){
+                image_Rgb[i][j-cnt][g] = new_image[i][j][g] ;
+            }
+        }
+    }            
+}
+void Rotate_90() {
+  for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+        for (int g = 0; g < RGB; k++) {
+            new_image[i][255-j][g]=image_Rgb[j][i][g];
+
+        }
+    }
+  }
+}
+void Rotate_180() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int g = 0; g < RGB; k++) {
+                new_image[i][j][g]=image_Rgb[255-i][255-j][g];
+
+            }
+        }
+    }
+}
+void Rotate_270() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int g = 0; g < RGB; k++) {
+                new_image[j][255-i][g]=image_Rgb[255-i][255-j][g];
+
+            }
+        }
+    }
+}
+void Rotate_Image(){
+    // This filter allows the user to input degree rotate
+    int degree ;
+    cout << "Rotate (90), (180) or (270) degrees? " ;
+    cin >> degree;
+    switch (degree) {
+        case 90:
+            Rotate_90();
+            break;
+        case 180:
+            Rotate_180();
+            break;
+        case 270:
+            Rotate_270();
+    }
+       // Current image equal new_image
+    for (int i = 0; i < SIZE ; i++){
+        for (int j  = 0 ; j < SIZE ; j++){
+            for (int g = 0 ; g < RGB ; g++){
+                image_Rgb[i][j][g] = new_image[i][j][g] ;
+            }
+        }
+    }
+}
+void Shuffle_Image() {
+    cout << "Please enter new order of quarters ? ";
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for (int g = 0; g < RGB; k++) {
+                if (a == 4)new_image[i / 2][j / 2][g] = image_Rgb[(i / 2) + 128][(j / 2) + 128][g];
+                if (a == 3)new_image[i / 2][j / 2][g] = image_Rgb[(i / 2) + 128][(j / 2)][g];
+                if (a == 2)new_image[i / 2][j / 2][g] = image_Rgb[(i / 2)][(j / 2) + 128][g];
+                if (a == 1) new_image[i / 2][j / 2][g] = image_Rgb[(i / 2)][(j / 2)][g];
+                if (b == 4)new_image[i / 2][(j / 2) + 128][g] = image_Rgb[(i / 2) + 128][(j / 2) + 128][g];
+                if (b == 3)new_image[i / 2][(j / 2) + 128][g] = image_Rgb[(i / 2) + 128][(j / 2)][g];
+                if (b == 2)new_image[i / 2][(j / 2) + 128][g] = image_Rgb[(i / 2)][(j / 2) + 128][g];
+                if (b == 1)new_image[i / 2][(j / 2) + 128][g] = image_Rgb[(i / 2)][(j / 2)][g];
+                if (c == 4)new_image[(i / 2) + 128][j / 2][g] = image_Rgb[(i / 2) + 128][(j / 2) + 128][g];
+                if (c == 3)new_image[(i / 2) + 128][j / 2][g] = image_Rgb[(i / 2) + 128][(j / 2)][g];
+                if (c == 2)new_image[(i / 2) + 128][j / 2][g] = image_Rgb[(i / 2)][(j / 2) + 128][g];
+                if (c == 1)new_image[(i / 2) + 128][j / 2][g] = image_Rgb[(i / 2)][(j / 2)][g];
+                if (d == 4)new_image[(i / 2) + 128][(j / 2) + 128][g] = image_Rgb[(i / 2) + 128][(j / 2) + 128][g];
+                if (d == 3)new_image[(i / 2) + 128][(j / 2) + 128][g] = image_Rgb[(i / 2) + 128][(j / 2)][g];
+                if (d == 2)new_image[(i / 2) + 128][(j / 2) + 128][g] = image_Rgb[(i / 2)][(j / 2) + 128][g];
+                if (d == 1)new_image[(i / 2) + 128][(j / 2) + 128][g] = image_Rgb[(i / 2)][(j / 2)][g];
+            }
+        }
+    }
+    // Current image equal new_image
+    for (int i = 0; i < SIZE ; i++){
+        for (int j  = 0 ; j < SIZE ; j++){
+            for (int g = 0 ; g < RGB ; g++){
+                image_Rgb[i][j][g] = new_image[i][j][g] ;
+            }
+        }
+    }
+}
+
 
 void Mirror_Image (){
     // This filter mirrors 1/2 of the image as seen here in order: Left 1/2, Right 1/2, Upper 1/2 and Lower 1/2.
@@ -227,10 +390,10 @@ char input_program (){
          << "5-\tDarken and Lighten Image\n"
          << "6-\tRotate Image\n"
          << "7-\tDetect Image Edges\n"
-         << "8-\tEnlarge Image#\n"   // abdo
+         << "8-\tEnlarge Image#\n"  
          << "9-\tShrink Image# \n"  // omar
          <<"a-\tMirror 1/2 Image\n"
-         <<"b-\tShuffle Image#\n"  // abdo
+         <<"b-\tShuffle Image#\n" 
          <<"c-\tBlur Image#\n"  // omar
          <<"d-\tCrop Image\n"
          <<"e-\tSkew Image Right#\n" // abdo
@@ -248,7 +411,7 @@ int main() {
                 Black_White();
                 break;
             case '2':
-//                Invert_Image();
+                Invert_Image();
                 break;
             case '3' :
 //                Merge_filter();
@@ -260,13 +423,13 @@ int main() {
 //                Darken_lighten_filter();
                 break;
             case '6':
-//                Rotate_Image();
+                Rotate_Image();
                 break;
             case '7':
                 Detect_Image();
                 break;
             case '8':
-                // abdo  function
+                Enlarge_Image();
                 break;
             case '9':
                 // omar funtion
@@ -275,7 +438,7 @@ int main() {
                 Mirror_Image();
                 break;
             case 'b':
-                // abdo  function
+               Shuffle_Image();
                 break;
             case 'c':
                 // omar funtion
