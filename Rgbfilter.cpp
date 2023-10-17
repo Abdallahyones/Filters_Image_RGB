@@ -53,6 +53,7 @@ void Black_White(){
     }
 }
 void Invert_Image() {
+    // filter for invert image by complement
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for(int g=0;g<RGB;k++){
@@ -64,6 +65,7 @@ void Invert_Image() {
 }
 
 void Flip_Image() {
+    // This filter allows the user to flip the image horizontally or vertically
     int num  ;
     cout <<"1-\tFlip horizontally \n 2-\tFlip vertically\n" ;
     cin >> num ;
@@ -262,6 +264,7 @@ void Rotate_Image(){
     }
 }
 void Shuffle_Image() {
+    //Assume the image consist of 4 quarters as shown, the user enters the order he wants to the quarters in the new image
     cout << "Please enter new order of quarters ? ";
     int a, b, c, d;
     cin >> a >> b >> c >> d;
@@ -271,7 +274,7 @@ void Shuffle_Image() {
                 if (a == 4)new_image[i / 2][j / 2][g] = image_Rgb[(i / 2) + 128][(j / 2) + 128][g];
                 if (a == 3)new_image[i / 2][j / 2][g] = image_Rgb[(i / 2) + 128][(j / 2)][g];
                 if (a == 2)new_image[i / 2][j / 2][g] = image_Rgb[(i / 2)][(j / 2) + 128][g];
-                if (a == 1) new_image[i / 2][j / 2][g] = image_Rgb[(i / 2)][(j / 2)][g];
+                if (a == 1)new_image[i / 2][j / 2][g] = image_Rgb[(i / 2)][(j / 2)][g];
                 if (b == 4)new_image[i / 2][(j / 2) + 128][g] = image_Rgb[(i / 2) + 128][(j / 2) + 128][g];
                 if (b == 3)new_image[i / 2][(j / 2) + 128][g] = image_Rgb[(i / 2) + 128][(j / 2)][g];
                 if (b == 2)new_image[i / 2][(j / 2) + 128][g] = image_Rgb[(i / 2)][(j / 2) + 128][g];
@@ -377,6 +380,54 @@ void Mirror_Image (){
         }
     }
 }
+void Skew_Horizontally() {
+    //This filter skew the image horizontally to a certain degree and compresses it to a size of 256 x 256.
+    double rad ; cin >> rad ;
+    rad=90-rad;
+    rad =(rad*3.14159/180);
+    int x=256/(1+1/tan(rad));
+    double step=SIZE-x;
+    double mov =step/SIZE;
+
+    for (int i = 0; i < SIZE; i++)
+        for (int j = 0; j < SIZE; j++)
+            for(int g=0;g<RGB;g++)
+            new_image[i][j][g] = 255;
+
+    for (int i = 0 ; i < SIZE ; i++ ){
+        for ( int j=0;j<SIZE; j++ ) {
+            for (int g = 0; g < RGB; g++) {
+                new_image[i][j * int(x) / SIZE][g] =  image_Rgb[i][j][g];
+            }
+        }
+    }
+    for (int i = 0 ; i < SIZE ; i++ ){
+        for ( int j=0;j<SIZE; j++ ) {
+            for (int g = 0; g < RGB; g++) {
+                 image_Rgb[i][j][g] =new_image[i][j][g];
+            }
+        }
+    }
+    for (int i = 0 ; i < SIZE ; i++ ){
+        for ( int j=0;j<SIZE; j++ ){
+            for(int g=0;g<RGB;g++){
+            new_image[i][j+(int)step][g]= image_Rgb[i][j][g];
+        }
+        }
+        step-=mov;
+    }
+    for (int i = 0 ; i < SIZE ; i++ ){
+            for ( int j=0;j<SIZE; j++ ) {
+                for (int g = 0; g < RGB; g++) {
+                     image_Rgb[i][j][g] = new_image[i][j][g];
+                }
+            }
+        }
+}
+
+
+
+
 
 
 char input_program (){
@@ -396,7 +447,7 @@ char input_program (){
          <<"b-\tShuffle Image#\n" 
          <<"c-\tBlur Image#\n"  // omar
          <<"d-\tCrop Image\n"
-         <<"e-\tSkew Image Right#\n" // abdo
+         <<"e-\tSkew Image Right#\n" 
          <<"f-\tSkew Image Up#\n"   // omar
          <<"s-\tSave the image to a file\n"
          <<"0-\tExit \n";
@@ -447,7 +498,7 @@ int main() {
 //                Crop_Image();
                 break;
             case 'e':
-                // abdo  function
+                Skew_Horizontally();
                 break;
             case 'f':
                 // omar  function
