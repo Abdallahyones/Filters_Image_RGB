@@ -437,6 +437,40 @@ void merge_filter(){
  }
   }
 
+void darken_lighten_filter(){
+  cout<<"Would you like to darken or lighten the image?"<<'\n'<<"type your choice:";
+  string x;
+  cin>>x;
+  if(x=="darken"||x=="Darken"||x=="DARKEN"){
+
+ for (int i = 0; i < SIZE; i++) {
+ for (int j = 0; j< SIZE; j++) {
+for (int k=0; k< RGB; k++){
+  
+  new_image[i][j][k]=image[i][j][k]/2;
+
+ }
+ }
+  }
+  }
+  else if(x=="lighten"||x=="Lighten"||x=="LIGHTEN"){
+  for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+      for (int k=0; k< RGB; k++){
+  int x = image[i][j][k]+80 ;
+  new_image[i][j][k]=min(255, x);
+
+      }
+  }
+  }
+  }
+
+  else{
+    cout<<"Unrecognized input, please try again"<<"\n";
+    doSomethingForImage();
+  }
+ }
+
 
 
 
