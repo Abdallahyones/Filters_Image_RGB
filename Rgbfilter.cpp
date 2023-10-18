@@ -539,6 +539,88 @@ void shrink_filter() {
     }
 }
 
+int average(int x , int y , int k) {
+    // here we calculate the average for pixels in the image
+    int sum = 0 , cnt = 0 ;
+    for(int g = 0 ; g < 8 ; g++){
+        for (int m = 1 ; m <=3  ; m++){
+            int nx = x + dx[g]*m  , ny = y + dy[g]*m ;
+            if (valid(nx , ny) ){
+                sum += image_Rgb[nx][ny][k];
+                cnt++;
+            }
+        }
+    }
+    return sum/cnt ;
+}
+
+void Blur(){
+    for (int i = 0 ; i < SIZE  ; i++){
+        for (int j = 0 ; j < SIZE ; j++){
+            for(int g = 0 ; g < RGB ; g++){
+                int avr = average(i , j , g);
+                new_image[i][j][g] = avr ;
+            }
+
+        }
+    }
+    // Current image equal new_image
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            for(int g = 0 ; g < RGB ; g++){
+                image_Rgb[i][j][g] = new_image[i][j][g];
+            }
+        }
+    }
+
+}
+
+void Skew_Vertically(unsigned char image[][SIZE][3], unsigned char new_image[][SIZE][3]) {
+    double degree;
+    cout << "Please enter degree to skew right: ";
+    cin >> degree;
+    degree = (degree * 22) / (7 * 180);
+
+    double x = (tan(degree) * 256 + 256) / 256;
+    degree = atan(tan(degree) / x);
+
+    for (int j = 0; j < SIZE; j++) {
+        int st = (SIZE - j - 1) * tan(degree), end = SIZE - (j * tan(degree));
+        double length = end - st + 1;
+        double shrink = SIZE / length;
+        int g = 0, cnt = 1;
+        for (int i = 0; i < SIZE; i++) {
+            if (i < st || i > end) {
+                new_image[i][j][0] = 255;
+                new_image[i][j][1] = 255;
+                new_image[i][j][2] = 255;
+                continue;
+            }
+
+            int num = 0;
+            int averageR = 0, averageG = 0, averageB = 0;
+            for (; g < shrink * cnt; g++) {
+                averageR += image[g][j][0];
+                averageG += image[g][j][1];
+                averageB += image[g][j][2];
+                num++;
+            }
+            new_image[i][j][0] = averageR / num;
+            new_image[i][j][1] = averageG / num;
+            new_image[i][j][2] = averageB / num;
+            cnt++;
+        }
+    }
+    //updating new image data:
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j][0] = new_image[i][j][0];
+            image[i][j][1] = new_image[i][j][1];
+            image[i][j][2] = new_image[i][j][2];
+        }
+    }
+}
+
 
 char input_program (){
     // interface of program
