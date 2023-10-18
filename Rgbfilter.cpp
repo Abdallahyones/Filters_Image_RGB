@@ -471,9 +471,73 @@ for (int k=0; k< RGB; k++){
   }
  }
 
-
-
-
+void shrink_filter() {
+    cout << "Would you like to shrink it to 1/2, 1/3, or 1/4?" << endl;
+    string x;
+    cin >> x;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+         for (int k = 0; k < RGB; k++) {
+                new_image[i][j][k] = 255;
+            }
+        }
+    }
+    if (x == "1/2") {
+        int new_size = SIZE / 2;
+        for (int i = 0; i < new_size; i++) {
+          for (int j = 0; j < new_size; j++) {
+            for (int k = 0; k < RGB / 2; k++) {
+                    int sum = 0;
+            for (int m = i * 2; m < (i * 2) + 2; m++) {
+                 for (int n = j * 2; n < (j * 2) + 2; n++) {
+                            sum += image[m][n][k];
+                        }
+                    }
+                    int average = sum / 4;
+                    new_image[i][j][k] = average;
+                }
+            }
+        }
+    }
+    else if (x == "1/3") {
+        int new_size = SIZE / 3;
+        for (int i = 0; i < new_size; i++) {
+          for (int j = 0; j < new_size; j++) {
+             for (int k = 0; k < RGB / 3; k++) {
+                    int sum = 0;
+            for (int m = i * 3; m < (i * 3) + 3; m++) {
+             for (int n = j * 3; n < (j * 3) + 3; n++) {
+                            sum += image[m][n][k];
+                        }
+                    }
+                    int average = sum / 9;
+                    new_image[i][j][k] = average;
+                }
+            }
+        }
+    }
+    else if (x == "1/4") {
+        int new_size = SIZE / 4;
+        for (int i = 0; i < new_size; i++) {
+        for (int j = 0; j < new_size; j++) {
+         for (int k = 0; k < RGB / 4; k++) {
+                    int sum = 0;
+         for (int m = i * 4; m < (i * 4) + 4; m++) {
+             for (int n = j * 4; n < (j * 4) + 4; n++) {
+                            sum += image[m][n][k];
+                        }
+                    }
+                    int average = sum / 16;
+                    new_image[i][j][k] = average;
+                }
+            }
+        }
+    }
+    else {
+        cout << "Unrecognized input, please try again" << endl;
+        doSomethingForImage();
+    }
+}
 
 
 char input_program (){
