@@ -425,6 +425,18 @@ void Skew_Horizontally() {
         }
 }
 
+void merge_filter(){
+    for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+      for(int k=0; k < RGB; k++){
+      int x=image[i][j][k], y=elephantx[i][j][k];
+            int z=(x+y)/2;
+            new_image[i][j][k]=z;
+      }
+}
+ }
+  }
+
 
 
 
