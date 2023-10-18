@@ -397,7 +397,7 @@ void Skew_Horizontally() {
     for (int i = 0 ; i < SIZE ; i++ ){
         for ( int j=0;j<SIZE; j++ ) {
             for (int g = 0; g < RGB; g++) {
-                new_image[i][j * int(x) / SIZE][g] =  image_Rgb[i][j][g];
+                new_image[i][j * x / 255][g] =  image_Rgb[i][j][g];
             }
         }
     }
